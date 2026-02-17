@@ -1,7 +1,8 @@
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recharts'
+import NeonCard from './NeonCard'
 
 const AllocationPie = ({ holdings }) => {
-  const COLORS = ['#0A84FF', '#34C759', '#FF3B30', '#FF9500', '#5856D6', '#AF52DE']
+  const COLORS = ['#00F0FF', '#9D00FF', '#FF008C', '#00FF85', '#FF3B3B', '#FFD700']
 
   const data = holdings.map((holding) => ({
     name: holding.symbol,
@@ -13,7 +14,7 @@ const AllocationPie = ({ holdings }) => {
   }
 
   return (
-    <div className="bg-card rounded-2xl p-6 card-shadow">
+    <NeonCard className="p-6" glowColor="purple">
       <h3 className="text-xl font-bold text-text mb-6">Asset Allocation</h3>
       <ResponsiveContainer width="100%" height={300}>
         <PieChart>
@@ -28,13 +29,26 @@ const AllocationPie = ({ holdings }) => {
             dataKey="value"
           >
             {data.map((entry, index) => (
-              <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+              <Cell 
+                key={`cell-${index}`} 
+                fill={COLORS[index % COLORS.length]}
+                style={{ filter: `drop-shadow(0 0 4px ${COLORS[index % COLORS.length]})` }}
+              />
             ))}
           </Pie>
-          <Tooltip formatter={formatValue} />
+          <Tooltip 
+            formatter={formatValue}
+            contentStyle={{
+              backgroundColor: '#16161A',
+              border: '1px solid rgba(157, 0, 255, 0.3)',
+              borderRadius: '8px',
+              color: '#FFFFFF',
+            }}
+            labelStyle={{ color: '#FFFFFF' }}
+          />
         </PieChart>
       </ResponsiveContainer>
-    </div>
+    </NeonCard>
   )
 }
 

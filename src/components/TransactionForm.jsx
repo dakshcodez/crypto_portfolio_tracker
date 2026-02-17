@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { availableCoins } from '../data/mockData'
+import NeonCard from './NeonCard'
+import GlowButton from './GlowButton'
 
 const TransactionForm = () => {
   const [formData, setFormData] = useState({
@@ -44,141 +46,143 @@ const TransactionForm = () => {
   }
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      className="bg-card rounded-2xl p-8 card-shadow max-w-2xl mx-auto"
-    >
-      <h2 className="text-3xl font-bold text-text mb-8">Add Transaction</h2>
+    <NeonCard className="p-8 max-w-2xl mx-auto" glowColor="blue">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+      >
+        <h2 className="text-3xl font-bold text-text mb-8 uppercase tracking-wider">
+          Add <span className="neon-text-gradient">Transaction</span>
+        </h2>
 
-      {showSuccess && (
-        <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="mb-6 p-4 bg-gain/10 border border-gain rounded-xl text-gain"
-        >
-          Transaction added successfully!
-        </motion.div>
-      )}
-
-      <form onSubmit={handleSubmit} className="space-y-6">
-        <div>
-          <label className="block text-sm font-semibold text-text mb-2">
-            Coin
-          </label>
-          <select
-            name="coin"
-            value={formData.coin}
-            onChange={handleChange}
-            required
-            className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition-all"
+        {showSuccess && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mb-6 p-4 bg-neon-green/10 border border-neon-green rounded-xl text-neon-green text-glow-green"
           >
-            <option value="">Select a coin</option>
-            {availableCoins.map((coin) => (
-              <option key={coin.id} value={coin.symbol}>
-                {coin.name} ({coin.symbol})
-              </option>
-            ))}
-          </select>
-        </div>
+            Transaction added successfully!
+          </motion.div>
+        )}
 
-        <div>
-          <label className="block text-sm font-semibold text-text mb-2">
-            Type
-          </label>
-          <div className="flex gap-4">
-            <button
-              type="button"
-              onClick={() => setFormData((prev) => ({ ...prev, type: 'buy' }))}
-              className={`flex-1 px-6 py-3 rounded-xl font-medium transition-all ${
-                formData.type === 'buy'
-                  ? 'bg-gain text-white'
-                  : 'bg-gray-100 text-text hover:bg-gray-200'
-              }`}
-            >
-              Buy
-            </button>
-            <button
-              type="button"
-              onClick={() => setFormData((prev) => ({ ...prev, type: 'sell' }))}
-              className={`flex-1 px-6 py-3 rounded-xl font-medium transition-all ${
-                formData.type === 'sell'
-                  ? 'bg-loss text-white'
-                  : 'bg-gray-100 text-text hover:bg-gray-200'
-              }`}
-            >
-              Sell
-            </button>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-2 gap-4">
+        <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label className="block text-sm font-semibold text-text mb-2">
-              Amount
+            <label className="block text-xs uppercase tracking-wider text-text-secondary mb-2 font-semibold">
+              Coin
             </label>
-            <input
-              type="number"
-              name="amount"
-              value={formData.amount}
+            <select
+              name="coin"
+              value={formData.coin}
               onChange={handleChange}
               required
-              step="any"
-              min="0"
-              placeholder="0.00"
-              className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition-all"
-            />
+              className="neon-input w-full"
+            >
+              <option value="">Select a coin</option>
+              {availableCoins.map((coin) => (
+                <option key={coin.id} value={coin.symbol} className="bg-card">
+                  {coin.name} ({coin.symbol})
+                </option>
+              ))}
+            </select>
           </div>
 
           <div>
-            <label className="block text-sm font-semibold text-text mb-2">
-              Price per Coin
+            <label className="block text-xs uppercase tracking-wider text-text-secondary mb-2 font-semibold">
+              Type
+            </label>
+            <div className="flex gap-4">
+              <button
+                type="button"
+                onClick={() => setFormData((prev) => ({ ...prev, type: 'buy' }))}
+                className={`flex-1 px-6 py-3 rounded-xl font-semibold transition-all ${
+                  formData.type === 'buy'
+                    ? 'bg-gradient-neon-green text-white'
+                    : 'bg-card text-text-secondary hover:text-neon-green border border-gray-700'
+                }`}
+                style={formData.type === 'buy' ? { boxShadow: '0 0 15px rgba(0, 255, 133, 0.4)' } : {}}
+              >
+                Buy
+              </button>
+              <button
+                type="button"
+                onClick={() => setFormData((prev) => ({ ...prev, type: 'sell' }))}
+                className={`flex-1 px-6 py-3 rounded-xl font-semibold transition-all ${
+                  formData.type === 'sell'
+                    ? 'bg-gradient-neon-pink text-white'
+                    : 'bg-card text-text-secondary hover:text-neon-pink border border-gray-700'
+                }`}
+                style={formData.type === 'sell' ? { boxShadow: '0 0 15px rgba(255, 0, 140, 0.4)' } : {}}
+              >
+                Sell
+              </button>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="block text-xs uppercase tracking-wider text-text-secondary mb-2 font-semibold">
+                Amount
+              </label>
+              <input
+                type="number"
+                name="amount"
+                value={formData.amount}
+                onChange={handleChange}
+                required
+                step="any"
+                min="0"
+                placeholder="0.00"
+                className="neon-input w-full"
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs uppercase tracking-wider text-text-secondary mb-2 font-semibold">
+                Price per Coin
+              </label>
+              <input
+                type="number"
+                name="price"
+                value={formData.price}
+                onChange={handleChange}
+                required
+                step="any"
+                min="0"
+                placeholder="0.00"
+                className="neon-input w-full"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-xs uppercase tracking-wider text-text-secondary mb-2 font-semibold">
+              Date
             </label>
             <input
-              type="number"
-              name="price"
-              value={formData.price}
+              type="date"
+              name="date"
+              value={formData.date}
               onChange={handleChange}
               required
-              step="any"
-              min="0"
-              placeholder="0.00"
-              className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition-all"
+              className="neon-input w-full"
             />
           </div>
-        </div>
 
-        <div>
-          <label className="block text-sm font-semibold text-text mb-2">
-            Date
-          </label>
-          <input
-            type="date"
-            name="date"
-            value={formData.date}
-            onChange={handleChange}
-            required
-            className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition-all"
-          />
-        </div>
-
-        <div className="bg-gray-50 rounded-xl p-4">
-          <div className="flex justify-between items-center">
-            <span className="text-sm font-semibold text-gray-600">Total</span>
-            <span className="text-2xl font-bold text-text">
-              ${calculateTotal()}
-            </span>
+          <div className="bg-background-secondary rounded-xl p-4 border border-gray-700">
+            <div className="flex justify-between items-center">
+              <span className="text-sm font-semibold text-text-secondary uppercase tracking-wider">Total</span>
+              <span className="text-2xl font-bold neon-text-gradient">
+                ${calculateTotal()}
+              </span>
+            </div>
           </div>
-        </div>
 
-        <button
-          type="submit"
-          className="w-full px-6 py-4 bg-accent text-white rounded-xl font-semibold hover:opacity-90 transition-opacity"
-        >
-          Add Transaction
-        </button>
-      </form>
-    </motion.div>
+          <GlowButton type="submit" variant="primary" className="w-full">
+            Add Transaction
+          </GlowButton>
+        </form>
+      </motion.div>
+    </NeonCard>
   )
 }
 

@@ -2,6 +2,8 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import Navbar from '../components/Navbar'
 import { mockMarketData } from '../data/mockData'
+import NeonCard from '../components/NeonCard'
+import GlowButton from '../components/GlowButton'
 
 const Market = () => {
   const [searchTerm, setSearchTerm] = useState('')
@@ -71,84 +73,94 @@ const Market = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background relative overflow-hidden">
+      {/* Subtle animated background */}
+      <div className="absolute inset-0 opacity-10">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-neon-purple rounded-full blur-3xl"></div>
+      </div>
+
       <Navbar />
-      <div className="pt-24 pb-12 px-6">
+      <div className="pt-24 pb-12 px-6 relative z-10">
         <div className="max-w-7xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="mb-8"
           >
-            <h1 className="text-4xl font-bold text-text mb-8">Market</h1>
+            <h1 className="text-4xl font-bold text-text mb-8 uppercase tracking-wider">
+              <span className="neon-text-gradient">Market</span>
+            </h1>
 
             {/* Search and Filters */}
-            <div className="bg-card rounded-2xl p-6 card-shadow mb-6">
+            <NeonCard className="p-6 mb-6" glowColor="purple">
               <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
                 <input
                   type="text"
                   placeholder="Search coins..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="flex-1 w-full md:w-auto px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition-all"
+                  className="neon-input flex-1 w-full md:w-auto"
                 />
                 <div className="flex gap-2">
                   <button
                     onClick={() => handleSort('marketCap')}
-                    className={`px-4 py-2 rounded-xl font-medium transition-all ${
+                    className={`px-4 py-2 rounded-xl font-semibold transition-all ${
                       sortBy === 'marketCap'
-                        ? 'bg-accent text-white'
-                        : 'bg-gray-100 text-text hover:bg-gray-200'
+                        ? 'bg-gradient-neon-blue text-white'
+                        : 'bg-card text-text-secondary hover:text-neon-blue border border-gray-700'
                     }`}
+                    style={sortBy === 'marketCap' ? { boxShadow: '0 0 15px rgba(0, 240, 255, 0.4)' } : {}}
                   >
                     Market Cap
                   </button>
                   <button
                     onClick={() => handleSort('price')}
-                    className={`px-4 py-2 rounded-xl font-medium transition-all ${
+                    className={`px-4 py-2 rounded-xl font-semibold transition-all ${
                       sortBy === 'price'
-                        ? 'bg-accent text-white'
-                        : 'bg-gray-100 text-text hover:bg-gray-200'
+                        ? 'bg-gradient-neon-blue text-white'
+                        : 'bg-card text-text-secondary hover:text-neon-blue border border-gray-700'
                     }`}
+                    style={sortBy === 'price' ? { boxShadow: '0 0 15px rgba(0, 240, 255, 0.4)' } : {}}
                   >
                     Price
                   </button>
                   <button
                     onClick={() => handleSort('change24h')}
-                    className={`px-4 py-2 rounded-xl font-medium transition-all ${
+                    className={`px-4 py-2 rounded-xl font-semibold transition-all ${
                       sortBy === 'change24h'
-                        ? 'bg-accent text-white'
-                        : 'bg-gray-100 text-text hover:bg-gray-200'
+                        ? 'bg-gradient-neon-blue text-white'
+                        : 'bg-card text-text-secondary hover:text-neon-blue border border-gray-700'
                     }`}
+                    style={sortBy === 'change24h' ? { boxShadow: '0 0 15px rgba(0, 240, 255, 0.4)' } : {}}
                   >
                     24h Change
                   </button>
                 </div>
               </div>
-            </div>
+            </NeonCard>
 
             {/* Market Table */}
-            <div className="bg-card rounded-2xl p-6 card-shadow">
+            <NeonCard className="p-6" glowColor="blue">
               <div className="overflow-x-auto">
                 <table className="w-full">
                   <thead>
-                    <tr className="border-b border-gray-100">
-                      <th className="text-left py-3 px-4 text-sm font-semibold text-gray-600">
+                    <tr className="border-b border-gray-700">
+                      <th className="text-left py-3 px-4 text-xs uppercase tracking-wider font-semibold text-text-secondary">
                         Coin
                       </th>
-                      <th className="text-right py-3 px-4 text-sm font-semibold text-gray-600">
+                      <th className="text-right py-3 px-4 text-xs uppercase tracking-wider font-semibold text-text-secondary">
                         Price
                       </th>
-                      <th className="text-right py-3 px-4 text-sm font-semibold text-gray-600">
+                      <th className="text-right py-3 px-4 text-xs uppercase tracking-wider font-semibold text-text-secondary">
                         Market Cap
                       </th>
-                      <th className="text-right py-3 px-4 text-sm font-semibold text-gray-600">
+                      <th className="text-right py-3 px-4 text-xs uppercase tracking-wider font-semibold text-text-secondary">
                         24h Change
                       </th>
-                      <th className="text-right py-3 px-4 text-sm font-semibold text-gray-600">
+                      <th className="text-right py-3 px-4 text-xs uppercase tracking-wider font-semibold text-text-secondary">
                         Volume
                       </th>
-                      <th className="text-right py-3 px-4 text-sm font-semibold text-gray-600">
+                      <th className="text-right py-3 px-4 text-xs uppercase tracking-wider font-semibold text-text-secondary">
                         Actions
                       </th>
                     </tr>
@@ -160,44 +172,46 @@ const Market = () => {
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: index * 0.02 }}
-                        className="border-b border-gray-50 hover:bg-gray-50/50 transition-colors"
+                        className="border-b border-gray-800 hover:bg-gray-800/30 transition-colors"
                       >
                         <td className="py-4 px-4">
                           <div>
                             <p className="font-semibold text-text">{coin.name}</p>
-                            <p className="text-sm text-gray-500">{coin.symbol}</p>
+                            <p className="text-sm text-text-secondary">{coin.symbol}</p>
                           </div>
                         </td>
                         <td className="text-right py-4 px-4 font-medium text-text">
                           {formatPrice(coin.price)}
                         </td>
-                        <td className="text-right py-4 px-4 text-gray-600">
+                        <td className="text-right py-4 px-4 text-text-secondary">
                           {formatMarketCap(coin.marketCap)}
                         </td>
                         <td className="text-right py-4 px-4">
                           <span
                             className={`font-semibold ${
-                              coin.change24h >= 0 ? 'text-gain' : 'text-loss'
+                              coin.change24h >= 0 
+                                ? 'text-neon-green text-glow-green' 
+                                : 'text-loss text-glow-red'
                             }`}
                           >
                             {coin.change24h >= 0 ? '+' : ''}
                             {coin.change24h.toFixed(2)}%
                           </span>
                         </td>
-                        <td className="text-right py-4 px-4 text-gray-600">
+                        <td className="text-right py-4 px-4 text-text-secondary">
                           {formatVolume(coin.volume)}
                         </td>
                         <td className="text-right py-4 px-4">
-                          <button className="px-4 py-2 text-sm bg-accent text-white rounded-lg hover:opacity-90 transition-opacity">
+                          <GlowButton variant="primary" className="text-sm px-4 py-2">
                             Add
-                          </button>
+                          </GlowButton>
                         </td>
                       </motion.tr>
                     ))}
                   </tbody>
                 </table>
               </div>
-            </div>
+            </NeonCard>
           </motion.div>
         </div>
       </div>

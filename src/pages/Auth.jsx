@@ -2,6 +2,8 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import Navbar from '../components/Navbar'
+import NeonCard from '../components/NeonCard'
+import GlowButton from '../components/GlowButton'
 
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(true)
@@ -38,7 +40,7 @@ const Auth = () => {
   const getPasswordStrengthColor = () => {
     if (passwordStrength <= 1) return 'bg-loss'
     if (passwordStrength <= 2) return 'bg-yellow-500'
-    return 'bg-gain'
+    return 'bg-neon-green'
   }
 
   const handleSubmit = (e) => {
@@ -48,9 +50,15 @@ const Auth = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background relative overflow-hidden">
+      {/* Animated background gradient */}
+      <div className="absolute inset-0 opacity-20">
+        <div className="absolute top-0 left-0 w-96 h-96 bg-neon-blue rounded-full blur-3xl"></div>
+        <div className="absolute bottom-0 right-0 w-96 h-96 bg-neon-purple rounded-full blur-3xl"></div>
+      </div>
+      
       <Navbar />
-      <div className="pt-24 pb-12 px-6">
+      <div className="pt-24 pb-12 px-6 relative z-10">
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             {/* Left Side - Branding */}
@@ -61,24 +69,24 @@ const Auth = () => {
               className="hidden lg:block"
             >
               <h1 className="text-5xl font-bold text-text mb-6">
-                Welcome to CoinFrame
+                Welcome to <span className="neon-text-gradient">CoinFrame</span>
               </h1>
-              <p className="text-xl text-gray-600 leading-relaxed mb-8">
-                Track your cryptocurrency portfolio with a clean, minimal
-                interface designed for clarity and simplicity.
+              <p className="text-xl text-text-secondary leading-relaxed mb-8">
+                Access your futuristic trading terminal. Track your cryptocurrency 
+                portfolio with real-time data and advanced analytics.
               </p>
               <div className="space-y-4">
                 <div className="flex items-center gap-3">
-                  <div className="w-2 h-2 bg-accent rounded-full"></div>
-                  <span className="text-gray-600">Real-time portfolio tracking</span>
+                  <div className="w-2 h-2 bg-neon-blue rounded-full" style={{ boxShadow: '0 0 8px rgba(0, 240, 255, 0.6)' }}></div>
+                  <span className="text-text-secondary">Real-time portfolio tracking</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <div className="w-2 h-2 bg-accent rounded-full"></div>
-                  <span className="text-gray-600">Beautiful charts and analytics</span>
+                  <div className="w-2 h-2 bg-neon-purple rounded-full" style={{ boxShadow: '0 0 8px rgba(157, 0, 255, 0.6)' }}></div>
+                  <span className="text-text-secondary">Advanced charts and analytics</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <div className="w-2 h-2 bg-accent rounded-full"></div>
-                  <span className="text-gray-600">Simple transaction management</span>
+                  <div className="w-2 h-2 bg-neon-green rounded-full" style={{ boxShadow: '0 0 8px rgba(0, 255, 133, 0.6)' }}></div>
+                  <span className="text-text-secondary">Secure transaction management</span>
                 </div>
               </div>
             </motion.div>
@@ -89,25 +97,27 @@ const Auth = () => {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6 }}
             >
-              <div className="bg-card rounded-2xl p-8 card-shadow max-w-md mx-auto">
+              <NeonCard className="p-8 max-w-md mx-auto" glowColor="blue">
                 <div className="flex gap-4 mb-8">
                   <button
                     onClick={() => setIsLogin(true)}
-                    className={`flex-1 py-3 rounded-xl font-semibold transition-all ${
+                    className={`flex-1 py-3 rounded-xl font-semibold transition-all relative ${
                       isLogin
-                        ? 'bg-accent text-white'
-                        : 'bg-gray-100 text-text hover:bg-gray-200'
+                        ? 'bg-gradient-neon-blue text-white'
+                        : 'bg-card text-text-secondary hover:text-neon-blue border border-gray-700'
                     }`}
+                    style={isLogin ? { boxShadow: '0 0 15px rgba(0, 240, 255, 0.4)' } : {}}
                   >
                     Login
                   </button>
                   <button
                     onClick={() => setIsLogin(false)}
-                    className={`flex-1 py-3 rounded-xl font-semibold transition-all ${
+                    className={`flex-1 py-3 rounded-xl font-semibold transition-all relative ${
                       !isLogin
-                        ? 'bg-accent text-white'
-                        : 'bg-gray-100 text-text hover:bg-gray-200'
+                        ? 'bg-gradient-neon-blue text-white'
+                        : 'bg-card text-text-secondary hover:text-neon-blue border border-gray-700'
                     }`}
+                    style={!isLogin ? { boxShadow: '0 0 15px rgba(0, 240, 255, 0.4)' } : {}}
                   >
                     Register
                   </button>
@@ -115,7 +125,7 @@ const Auth = () => {
 
                 <form onSubmit={handleSubmit} className="space-y-5">
                   <div>
-                    <label className="block text-sm font-semibold text-text mb-2">
+                    <label className="block text-xs uppercase tracking-wider text-text-secondary mb-2 font-semibold">
                       Email
                     </label>
                     <input
@@ -125,12 +135,12 @@ const Auth = () => {
                       onChange={handleChange}
                       required
                       placeholder="you@example.com"
-                      className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition-all"
+                      className="neon-input w-full"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-semibold text-text mb-2">
+                    <label className="block text-xs uppercase tracking-wider text-text-secondary mb-2 font-semibold">
                       Password
                     </label>
                     <div className="relative">
@@ -141,12 +151,12 @@ const Auth = () => {
                         onChange={handleChange}
                         required
                         placeholder="••••••••"
-                        className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition-all pr-12"
+                        className="neon-input w-full pr-12"
                       />
                       <button
                         type="button"
                         onClick={() => setShowPassword(!showPassword)}
-                        className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-text transition-colors text-sm"
+                        className="absolute right-4 top-1/2 -translate-y-1/2 text-text-secondary hover:text-neon-blue transition-colors text-sm"
                       >
                         {showPassword ? 'Hide' : 'Show'}
                       </button>
@@ -157,15 +167,16 @@ const Auth = () => {
                           {[1, 2, 3, 4].map((level) => (
                             <div
                               key={level}
-                              className={`h-1 flex-1 rounded ${
+                              className={`h-1 flex-1 rounded transition-all ${
                                 level <= passwordStrength
                                   ? getPasswordStrengthColor()
-                                  : 'bg-gray-200'
+                                  : 'bg-gray-700'
                               }`}
+                              style={level <= passwordStrength ? { boxShadow: `0 0 4px ${level <= passwordStrength ? (passwordStrength <= 1 ? '#FF3B3B' : passwordStrength <= 2 ? '#FFD700' : '#00FF85') : 'transparent'}` } : {}}
                             />
                           ))}
                         </div>
-                        <p className="text-xs text-gray-500">
+                        <p className="text-xs text-text-secondary">
                           Password strength: {passwordStrength === 0 ? 'Weak' : passwordStrength <= 2 ? 'Medium' : 'Strong'}
                         </p>
                       </div>
@@ -174,7 +185,7 @@ const Auth = () => {
 
                   {!isLogin && (
                     <div>
-                      <label className="block text-sm font-semibold text-text mb-2">
+                      <label className="block text-xs uppercase tracking-wider text-text-secondary mb-2 font-semibold">
                         Confirm Password
                       </label>
                       <input
@@ -184,11 +195,11 @@ const Auth = () => {
                         onChange={handleChange}
                         required
                         placeholder="••••••••"
-                        className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition-all"
+                        className="neon-input w-full"
                       />
                       {formData.confirmPassword &&
                         formData.password !== formData.confirmPassword && (
-                          <p className="mt-1 text-sm text-loss">
+                          <p className="mt-1 text-sm text-loss text-glow-red">
                             Passwords do not match
                           </p>
                         )}
@@ -199,21 +210,18 @@ const Auth = () => {
                     <div className="flex justify-end">
                       <a
                         href="#"
-                        className="text-sm text-accent hover:underline"
+                        className="text-sm text-neon-blue hover:text-neon-purple transition-colors"
                       >
                         Forgot password?
                       </a>
                     </div>
                   )}
 
-                  <button
-                    type="submit"
-                    className="w-full px-6 py-4 bg-accent text-white rounded-xl font-semibold hover:opacity-90 transition-opacity"
-                  >
+                  <GlowButton type="submit" variant="primary" className="w-full">
                     {isLogin ? 'Sign In' : 'Create Account'}
-                  </button>
+                  </GlowButton>
                 </form>
-              </div>
+              </NeonCard>
             </motion.div>
           </div>
         </div>
