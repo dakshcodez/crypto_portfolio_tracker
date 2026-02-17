@@ -7,42 +7,39 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Dark backgrounds
-        background: '#0D0D0F',
-        'background-secondary': '#111114',
-        card: '#16161A',
-        // Neon accents
-        'neon-blue': '#00F0FF',
-        'neon-purple': '#9D00FF',
-        'neon-pink': '#FF008C',
-        'neon-green': '#00FF85',
-        loss: '#FF3B3B',
+        // Trading / Binance-style backgrounds
+        background: '#0B0E11',
+        'background-secondary': '#14151A',
+        card: '#1E2329',
+        'trading-bg': '#0B0E11',
+        'trading-card': '#1E2329',
         // Text
-        text: '#FFFFFF',
-        'text-secondary': '#A0A0A0',
+        text: '#EAECEF',
+        'text-secondary': '#848E9C',
+        'text-muted': '#5E6673',
+        // Accent
+        'binance-yellow': '#FCD535',
+        'binance-green': '#0ECB81',
+        'binance-red': '#F6465D',
+        gain: '#0ECB81',
+        loss: '#F6465D',
       },
       fontFamily: {
-        sans: ['Inter', 'Space Grotesk', 'system-ui', 'sans-serif'],
+        sans: ['Inter', 'system-ui', 'sans-serif'],
       },
       borderRadius: {
-        'xl': '1rem',
-        '2xl': '1.5rem',
+        'trading': '0.375rem', /* rounded-md */
       },
-      boxShadow: {
-        'neon-blue': '0 0 10px rgba(0, 240, 255, 0.3), 0 0 20px rgba(0, 240, 255, 0.1)',
-        'neon-purple': '0 0 10px rgba(157, 0, 255, 0.3), 0 0 20px rgba(157, 0, 255, 0.1)',
-        'neon-pink': '0 0 10px rgba(255, 0, 140, 0.3), 0 0 20px rgba(255, 0, 140, 0.1)',
-        'neon-green': '0 0 10px rgba(0, 255, 133, 0.3), 0 0 20px rgba(0, 255, 133, 0.1)',
-        'neon-glow': '0 0 15px rgba(0, 240, 255, 0.4), 0 0 30px rgba(0, 240, 255, 0.2)',
-        'card-glow': '0 0 20px rgba(0, 0, 0, 0.5), 0 0 40px rgba(0, 240, 255, 0.05)',
+      keyframes: {
+        marquee: {
+          '0%': { transform: 'translateX(0)' },
+          '100%': { transform: 'translateX(-50%)' },
+        },
       },
-      backgroundImage: {
-        'gradient-neon-blue': 'linear-gradient(135deg, #00F0FF 0%, #9D00FF 100%)',
-        'gradient-neon-green': 'linear-gradient(135deg, #00FF85 0%, #00F0FF 100%)',
-        'gradient-neon-pink': 'linear-gradient(135deg, #FF008C 0%, #9D00FF 100%)',
+      animation: {
+        'marquee': 'marquee 40s linear infinite',
       },
     },
   },
   plugins: [],
 }
-

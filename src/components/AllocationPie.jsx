@@ -1,8 +1,8 @@
-import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recharts'
-import NeonCard from './NeonCard'
+import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts'
+import TradingCard from './TradingCard'
 
 const AllocationPie = ({ holdings }) => {
-  const COLORS = ['#00F0FF', '#9D00FF', '#FF008C', '#00FF85', '#FF3B3B', '#FFD700']
+  const COLORS = ['#FCD535', '#0ECB81', '#F6465D', '#848E9C', '#5E6673', '#2b3139']
 
   const data = holdings.map((holding) => ({
     name: holding.symbol,
@@ -14,9 +14,9 @@ const AllocationPie = ({ holdings }) => {
   }
 
   return (
-    <NeonCard className="p-6" glowColor="purple">
-      <h3 className="text-xl font-bold text-text mb-6">Asset Allocation</h3>
-      <ResponsiveContainer width="100%" height={300}>
+    <TradingCard className="p-4">
+      <h3 className="text-sm font-semibold text-text mb-4 uppercase tracking-wider">Asset Allocation</h3>
+      <ResponsiveContainer width="100%" height={260}>
         <PieChart>
           <Pie
             data={data}
@@ -24,33 +24,29 @@ const AllocationPie = ({ holdings }) => {
             cy="50%"
             labelLine={false}
             label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
-            outerRadius={100}
+            outerRadius={90}
             fill="#8884d8"
             dataKey="value"
           >
             {data.map((entry, index) => (
-              <Cell 
-                key={`cell-${index}`} 
-                fill={COLORS[index % COLORS.length]}
-                style={{ filter: `drop-shadow(0 0 4px ${COLORS[index % COLORS.length]})` }}
-              />
+              <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
             ))}
           </Pie>
-          <Tooltip 
+          <Tooltip
             formatter={formatValue}
             contentStyle={{
-              backgroundColor: '#16161A',
-              border: '1px solid rgba(157, 0, 255, 0.3)',
-              borderRadius: '8px',
-              color: '#FFFFFF',
+              backgroundColor: '#1E2329',
+              border: '1px solid #2b3139',
+              borderRadius: '4px',
+              color: '#EAECEF',
+              fontSize: '12px',
             }}
-            labelStyle={{ color: '#FFFFFF' }}
+            labelStyle={{ color: '#EAECEF' }}
           />
         </PieChart>
       </ResponsiveContainer>
-    </NeonCard>
+    </TradingCard>
   )
 }
 
 export default AllocationPie
-

@@ -1,26 +1,17 @@
-import { motion } from 'framer-motion'
-
 const StatCard = ({ title, value, subtitle, trend }) => {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      whileHover={{ y: -4 }}
-      transition={{ duration: 0.3 }}
-      className="bg-card rounded-2xl p-6 card-shadow hover:card-shadow-hover transition-all"
-    >
-      <p className="text-sm text-gray-600 mb-2">{title}</p>
-      <p className="text-3xl font-bold text-text mb-1">{value}</p>
+    <div className="trading-card p-4 hover:bg-gray-800/30 transition-colors">
+      <p className="text-xs uppercase tracking-wider text-text-secondary mb-1">{title}</p>
+      <p className="text-xl font-semibold text-text">{value}</p>
       {subtitle && (
-        <p className={`text-sm font-medium ${
-          trend === 'up' ? 'text-gain' : trend === 'down' ? 'text-loss' : 'text-gray-600'
+        <p className={`text-xs font-medium mt-1 ${
+          trend === 'up' ? 'text-binance-green' : trend === 'down' ? 'text-binance-red' : 'text-text-secondary'
         }`}>
           {subtitle}
         </p>
       )}
-    </motion.div>
+    </div>
   )
 }
 
 export default StatCard
-

@@ -1,9 +1,7 @@
 import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import { motion } from 'framer-motion'
+import { useNavigate } from 'react-router-dom'
 import Navbar from '../components/Navbar'
-import NeonCard from '../components/NeonCard'
-import GlowButton from '../components/GlowButton'
+import TradingCard from '../components/TradingCard'
 
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(true)
@@ -22,213 +20,140 @@ const Auth = () => {
       ...prev,
       [name]: value,
     }))
-
     if (name === 'password') {
-      calculatePasswordStrength(value)
+      let strength = 0
+      if (value.length >= 8) strength++
+      if (value.match(/[a-z]/) && value.match(/[A-Z]/)) strength++
+      if (value.match(/\d/)) strength++
+      if (value.match(/[^a-zA-Z\d]/)) strength++
+      setPasswordStrength(strength)
     }
   }
 
-  const calculatePasswordStrength = (password) => {
-    let strength = 0
-    if (password.length >= 8) strength++
-    if (password.match(/[a-z]/) && password.match(/[A-Z]/)) strength++
-    if (password.match(/\d/)) strength++
-    if (password.match(/[^a-zA-Z\d]/)) strength++
-    setPasswordStrength(strength)
-  }
-
   const getPasswordStrengthColor = () => {
-    if (passwordStrength <= 1) return 'bg-loss'
-    if (passwordStrength <= 2) return 'bg-yellow-500'
-    return 'bg-neon-green'
+    if (passwordStrength <= 1) return 'bg-binance-red'
+    if (passwordStrength <= 2) return 'bg-binance-yellow'
+    return 'bg-binance-green'
   }
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    // Frontend only - just navigate to dashboard
     navigate('/dashboard')
   }
 
   return (
-    <div className="min-h-screen bg-background relative overflow-hidden">
-      {/* Animated background gradient */}
-      <div className="absolute inset-0 opacity-20">
-        <div className="absolute top-0 left-0 w-96 h-96 bg-neon-blue rounded-full blur-3xl"></div>
-        <div className="absolute bottom-0 right-0 w-96 h-96 bg-neon-purple rounded-full blur-3xl"></div>
-      </div>
-      
+    <div className="min-h-screen bg-background">
       <Navbar />
-      <div className="pt-24 pb-12 px-6 relative z-10">
-        <div className="max-w-6xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            {/* Left Side - Branding */}
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6 }}
-              className="hidden lg:block"
+      <div className="py-10 px-4 flex justify-center items-start">
+        <TradingCard className="p-4 w-full max-w-md">
+          <div className="flex gap-2 mb-4">
+            <button
+              onClick={() => setIsLogin(true)}
+              className={`flex-1 py-2 rounded-md text-sm font-medium transition-colors ${
+                isLogin
+                  ? 'bg-binance-yellow text-gray-900'
+                  : 'bg-background-secondary text-text-secondary hover:text-text border border-gray-700'
+              }`}
             >
-              <h1 className="text-5xl font-bold text-text mb-6">
-                Welcome to <span className="neon-text-gradient">CoinFrame</span>
-              </h1>
-              <p className="text-xl text-text-secondary leading-relaxed mb-8">
-                Access your futuristic trading terminal. Track your cryptocurrency 
-                portfolio with real-time data and advanced analytics.
-              </p>
-              <div className="space-y-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-2 h-2 bg-neon-blue rounded-full" style={{ boxShadow: '0 0 8px rgba(0, 240, 255, 0.6)' }}></div>
-                  <span className="text-text-secondary">Real-time portfolio tracking</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="w-2 h-2 bg-neon-purple rounded-full" style={{ boxShadow: '0 0 8px rgba(157, 0, 255, 0.6)' }}></div>
-                  <span className="text-text-secondary">Advanced charts and analytics</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="w-2 h-2 bg-neon-green rounded-full" style={{ boxShadow: '0 0 8px rgba(0, 255, 133, 0.6)' }}></div>
-                  <span className="text-text-secondary">Secure transaction management</span>
-                </div>
-              </div>
-            </motion.div>
-
-            {/* Right Side - Form */}
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6 }}
+              Login
+            </button>
+            <button
+              onClick={() => setIsLogin(false)}
+              className={`flex-1 py-2 rounded-md text-sm font-medium transition-colors ${
+                !isLogin
+                  ? 'bg-binance-yellow text-gray-900'
+                  : 'bg-background-secondary text-text-secondary hover:text-text border border-gray-700'
+              }`}
             >
-              <NeonCard className="p-8 max-w-md mx-auto" glowColor="blue">
-                <div className="flex gap-4 mb-8">
-                  <button
-                    onClick={() => setIsLogin(true)}
-                    className={`flex-1 py-3 rounded-xl font-semibold transition-all relative ${
-                      isLogin
-                        ? 'bg-gradient-neon-blue text-white'
-                        : 'bg-card text-text-secondary hover:text-neon-blue border border-gray-700'
-                    }`}
-                    style={isLogin ? { boxShadow: '0 0 15px rgba(0, 240, 255, 0.4)' } : {}}
-                  >
-                    Login
-                  </button>
-                  <button
-                    onClick={() => setIsLogin(false)}
-                    className={`flex-1 py-3 rounded-xl font-semibold transition-all relative ${
-                      !isLogin
-                        ? 'bg-gradient-neon-blue text-white'
-                        : 'bg-card text-text-secondary hover:text-neon-blue border border-gray-700'
-                    }`}
-                    style={!isLogin ? { boxShadow: '0 0 15px rgba(0, 240, 255, 0.4)' } : {}}
-                  >
-                    Register
-                  </button>
-                </div>
-
-                <form onSubmit={handleSubmit} className="space-y-5">
-                  <div>
-                    <label className="block text-xs uppercase tracking-wider text-text-secondary mb-2 font-semibold">
-                      Email
-                    </label>
-                    <input
-                      type="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      required
-                      placeholder="you@example.com"
-                      className="neon-input w-full"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-xs uppercase tracking-wider text-text-secondary mb-2 font-semibold">
-                      Password
-                    </label>
-                    <div className="relative">
-                      <input
-                        type={showPassword ? 'text' : 'password'}
-                        name="password"
-                        value={formData.password}
-                        onChange={handleChange}
-                        required
-                        placeholder="••••••••"
-                        className="neon-input w-full pr-12"
-                      />
-                      <button
-                        type="button"
-                        onClick={() => setShowPassword(!showPassword)}
-                        className="absolute right-4 top-1/2 -translate-y-1/2 text-text-secondary hover:text-neon-blue transition-colors text-sm"
-                      >
-                        {showPassword ? 'Hide' : 'Show'}
-                      </button>
-                    </div>
-                    {!isLogin && formData.password && (
-                      <div className="mt-2">
-                        <div className="flex gap-1 mb-1">
-                          {[1, 2, 3, 4].map((level) => (
-                            <div
-                              key={level}
-                              className={`h-1 flex-1 rounded transition-all ${
-                                level <= passwordStrength
-                                  ? getPasswordStrengthColor()
-                                  : 'bg-gray-700'
-                              }`}
-                              style={level <= passwordStrength ? { boxShadow: `0 0 4px ${level <= passwordStrength ? (passwordStrength <= 1 ? '#FF3B3B' : passwordStrength <= 2 ? '#FFD700' : '#00FF85') : 'transparent'}` } : {}}
-                            />
-                          ))}
-                        </div>
-                        <p className="text-xs text-text-secondary">
-                          Password strength: {passwordStrength === 0 ? 'Weak' : passwordStrength <= 2 ? 'Medium' : 'Strong'}
-                        </p>
-                      </div>
-                    )}
-                  </div>
-
-                  {!isLogin && (
-                    <div>
-                      <label className="block text-xs uppercase tracking-wider text-text-secondary mb-2 font-semibold">
-                        Confirm Password
-                      </label>
-                      <input
-                        type="password"
-                        name="confirmPassword"
-                        value={formData.confirmPassword}
-                        onChange={handleChange}
-                        required
-                        placeholder="••••••••"
-                        className="neon-input w-full"
-                      />
-                      {formData.confirmPassword &&
-                        formData.password !== formData.confirmPassword && (
-                          <p className="mt-1 text-sm text-loss text-glow-red">
-                            Passwords do not match
-                          </p>
-                        )}
-                    </div>
-                  )}
-
-                  {isLogin && (
-                    <div className="flex justify-end">
-                      <a
-                        href="#"
-                        className="text-sm text-neon-blue hover:text-neon-purple transition-colors"
-                      >
-                        Forgot password?
-                      </a>
-                    </div>
-                  )}
-
-                  <GlowButton type="submit" variant="primary" className="w-full">
-                    {isLogin ? 'Sign In' : 'Create Account'}
-                  </GlowButton>
-                </form>
-              </NeonCard>
-            </motion.div>
+              Register
+            </button>
           </div>
-        </div>
+
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div>
+              <label className="block text-xs uppercase tracking-wider text-text-secondary mb-1.5 font-medium">Email</label>
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                required
+                placeholder="you@example.com"
+                className="trading-input w-full"
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs uppercase tracking-wider text-text-secondary mb-1.5 font-medium">Password</label>
+              <div className="relative">
+                <input
+                  type={showPassword ? 'text' : 'password'}
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  required
+                  placeholder="••••••••"
+                  className="trading-input w-full pr-20"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-text-muted hover:text-text text-xs"
+                >
+                  {showPassword ? 'Hide' : 'Show'}
+                </button>
+              </div>
+              {!isLogin && formData.password && (
+                <div className="mt-1.5">
+                  <div className="flex gap-1">
+                    {[1, 2, 3, 4].map((level) => (
+                      <div
+                        key={level}
+                        className={`h-1 flex-1 rounded-sm ${level <= passwordStrength ? getPasswordStrengthColor() : 'bg-gray-700'}`}
+                      />
+                    ))}
+                  </div>
+                  <p className="text-xs text-text-muted mt-0.5">
+                    Strength: {passwordStrength <= 1 ? 'Weak' : passwordStrength <= 2 ? 'Medium' : 'Strong'}
+                  </p>
+                </div>
+              )}
+            </div>
+
+            {!isLogin && (
+              <div>
+                <label className="block text-xs uppercase tracking-wider text-text-secondary mb-1.5 font-medium">Confirm Password</label>
+                <input
+                  type="password"
+                  name="confirmPassword"
+                  value={formData.confirmPassword}
+                  onChange={handleChange}
+                  required
+                  placeholder="••••••••"
+                  className="trading-input w-full"
+                />
+                {formData.confirmPassword && formData.password !== formData.confirmPassword && (
+                  <p className="mt-1 text-xs text-binance-red">Passwords do not match</p>
+                )}
+              </div>
+            )}
+
+            {isLogin && (
+              <div className="flex justify-end">
+                <a href="#" className="text-xs text-binance-yellow hover:underline">
+                  Forgot password?
+                </a>
+              </div>
+            )}
+
+            <button type="submit" className="w-full btn-primary py-2.5">
+              {isLogin ? 'Sign In' : 'Create Account'}
+            </button>
+          </form>
+        </TradingCard>
       </div>
     </div>
   )
 }
 
 export default Auth
-

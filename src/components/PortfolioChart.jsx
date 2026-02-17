@@ -1,5 +1,5 @@
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
-import NeonCard from './NeonCard'
+import TradingCard from './TradingCard'
 
 const PortfolioChart = ({ data }) => {
   const formatDate = (dateString) => {
@@ -12,48 +12,47 @@ const PortfolioChart = ({ data }) => {
   }
 
   return (
-    <NeonCard className="p-6" glowColor="blue">
-      <h3 className="text-xl font-bold text-text mb-6">Portfolio Growth</h3>
-      <ResponsiveContainer width="100%" height={300}>
+    <TradingCard className="p-4">
+      <h3 className="text-sm font-semibold text-text mb-4 uppercase tracking-wider">Portfolio Growth</h3>
+      <ResponsiveContainer width="100%" height={260}>
         <LineChart data={data}>
-          <CartesianGrid strokeDasharray="3 3" stroke="#1a1a1a" />
+          <CartesianGrid strokeDasharray="3 3" stroke="#2b3139" />
           <XAxis
             dataKey="date"
             tickFormatter={formatDate}
-            stroke="#666"
-            style={{ fontSize: '12px' }}
-            tick={{ fill: '#A0A0A0' }}
+            stroke="#5E6673"
+            style={{ fontSize: '11px' }}
+            tick={{ fill: '#848E9C' }}
           />
           <YAxis
             tickFormatter={formatValue}
-            stroke="#666"
-            style={{ fontSize: '12px' }}
-            tick={{ fill: '#A0A0A0' }}
+            stroke="#5E6673"
+            style={{ fontSize: '11px' }}
+            tick={{ fill: '#848E9C' }}
           />
           <Tooltip
             formatter={(value) => formatValue(value)}
             labelFormatter={(label) => formatDate(label)}
             contentStyle={{
-              backgroundColor: '#16161A',
-              border: '1px solid rgba(0, 240, 255, 0.3)',
-              borderRadius: '8px',
-              color: '#FFFFFF',
+              backgroundColor: '#1E2329',
+              border: '1px solid #2b3139',
+              borderRadius: '4px',
+              color: '#EAECEF',
+              fontSize: '12px',
             }}
-            labelStyle={{ color: '#FFFFFF' }}
+            labelStyle={{ color: '#EAECEF' }}
           />
           <Line
             type="monotone"
             dataKey="value"
-            stroke="#00F0FF"
-            strokeWidth={3}
+            stroke="#FCD535"
+            strokeWidth={2}
             dot={false}
-            style={{ filter: 'drop-shadow(0 0 6px rgba(0, 240, 255, 0.6))' }}
           />
         </LineChart>
       </ResponsiveContainer>
-    </NeonCard>
+    </TradingCard>
   )
 }
 
 export default PortfolioChart
-

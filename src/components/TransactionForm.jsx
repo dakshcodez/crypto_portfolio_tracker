@@ -1,8 +1,6 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { availableCoins } from '../data/mockData'
-import NeonCard from './NeonCard'
-import GlowButton from './GlowButton'
 
 const TransactionForm = () => {
   const [formData, setFormData] = useState({
@@ -31,7 +29,6 @@ const TransactionForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    // Frontend only - just show success message
     setShowSuccess(true)
     setTimeout(() => {
       setShowSuccess(false)
@@ -45,29 +42,31 @@ const TransactionForm = () => {
     }, 3000)
   }
 
+  const inputClass =
+    'w-full bg-background-secondary border border-gray-700 rounded-md px-3 py-2.5 text-sm text-text placeholder-text-muted focus:outline-none focus:ring-1 focus:ring-binance-yellow focus:border-binance-yellow transition-colors'
+
   return (
-    <NeonCard className="p-8 max-w-2xl mx-auto" glowColor="blue">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-      >
-        <h2 className="text-3xl font-bold text-text mb-8 uppercase tracking-wider">
-          Add <span className="neon-text-gradient">Transaction</span>
+    <motion.div
+      initial={{ opacity: 0, y: 8 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.25 }}
+      whileHover={{ y: -2 }}
+      className="w-full max-w-[480px] bg-card border border-gray-700 rounded-md shadow-sm"
+    >
+      <div className="p-5">
+        <h2 className="text-base font-semibold text-text uppercase tracking-wider mb-5">
+          Add Transaction
         </h2>
 
         {showSuccess && (
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="mb-6 p-4 bg-neon-green/10 border border-neon-green rounded-xl text-neon-green text-glow-green"
-          >
-            Transaction added successfully!
-          </motion.div>
+          <div className="mb-4 p-3 bg-binance-green/10 border border-binance-green rounded-md text-binance-green text-sm">
+            Transaction added successfully.
+          </div>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div>
-            <label className="block text-xs uppercase tracking-wider text-text-secondary mb-2 font-semibold">
+        <form onSubmit={handleSubmit} className="space-y-5">
+          <section>
+            <label className="block text-[11px] uppercase tracking-wider text-text-secondary mb-1.5 font-medium">
               Coin
             </label>
             <select
@@ -75,52 +74,50 @@ const TransactionForm = () => {
               value={formData.coin}
               onChange={handleChange}
               required
-              className="neon-input w-full"
+              className={inputClass}
             >
               <option value="">Select a coin</option>
               {availableCoins.map((coin) => (
-                <option key={coin.id} value={coin.symbol} className="bg-card">
+                <option key={coin.id} value={coin.symbol}>
                   {coin.name} ({coin.symbol})
                 </option>
               ))}
             </select>
-          </div>
+          </section>
 
-          <div>
-            <label className="block text-xs uppercase tracking-wider text-text-secondary mb-2 font-semibold">
+          <div className="border-t border-gray-700 pt-5">
+            <label className="block text-[11px] uppercase tracking-wider text-text-secondary mb-2 font-medium">
               Type
             </label>
-            <div className="flex gap-4">
+            <div className="flex rounded-md border border-gray-700 overflow-hidden bg-background-secondary">
               <button
                 type="button"
                 onClick={() => setFormData((prev) => ({ ...prev, type: 'buy' }))}
-                className={`flex-1 px-6 py-3 rounded-xl font-semibold transition-all ${
+                className={`flex-1 py-2.5 text-sm font-medium transition-colors ${
                   formData.type === 'buy'
-                    ? 'bg-gradient-neon-green text-white'
-                    : 'bg-card text-text-secondary hover:text-neon-green border border-gray-700'
+                    ? 'bg-binance-green text-gray-900'
+                    : 'text-text-secondary hover:text-text'
                 }`}
-                style={formData.type === 'buy' ? { boxShadow: '0 0 15px rgba(0, 255, 133, 0.4)' } : {}}
               >
                 Buy
               </button>
               <button
                 type="button"
                 onClick={() => setFormData((prev) => ({ ...prev, type: 'sell' }))}
-                className={`flex-1 px-6 py-3 rounded-xl font-semibold transition-all ${
+                className={`flex-1 py-2.5 text-sm font-medium transition-colors border-l border-gray-700 ${
                   formData.type === 'sell'
-                    ? 'bg-gradient-neon-pink text-white'
-                    : 'bg-card text-text-secondary hover:text-neon-pink border border-gray-700'
+                    ? 'bg-binance-red text-white'
+                    : 'text-text-secondary hover:text-text'
                 }`}
-                style={formData.type === 'sell' ? { boxShadow: '0 0 15px rgba(255, 0, 140, 0.4)' } : {}}
               >
                 Sell
               </button>
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="border-t border-gray-700 pt-5 grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs uppercase tracking-wider text-text-secondary mb-2 font-semibold">
+              <label className="block text-[11px] uppercase tracking-wider text-text-secondary mb-1.5 font-medium">
                 Amount
               </label>
               <input
@@ -132,13 +129,12 @@ const TransactionForm = () => {
                 step="any"
                 min="0"
                 placeholder="0.00"
-                className="neon-input w-full"
+                className={inputClass}
               />
             </div>
-
             <div>
-              <label className="block text-xs uppercase tracking-wider text-text-secondary mb-2 font-semibold">
-                Price per Coin
+              <label className="block text-[11px] uppercase tracking-wider text-text-secondary mb-1.5 font-medium">
+                Price
               </label>
               <input
                 type="number"
@@ -149,13 +145,13 @@ const TransactionForm = () => {
                 step="any"
                 min="0"
                 placeholder="0.00"
-                className="neon-input w-full"
+                className={inputClass}
               />
             </div>
           </div>
 
-          <div>
-            <label className="block text-xs uppercase tracking-wider text-text-secondary mb-2 font-semibold">
+          <div className="border-t border-gray-700 pt-5">
+            <label className="block text-[11px] uppercase tracking-wider text-text-secondary mb-1.5 font-medium">
               Date
             </label>
             <input
@@ -164,27 +160,31 @@ const TransactionForm = () => {
               value={formData.date}
               onChange={handleChange}
               required
-              className="neon-input w-full"
+              className={inputClass}
             />
           </div>
 
-          <div className="bg-background-secondary rounded-xl p-4 border border-gray-700">
-            <div className="flex justify-between items-center">
-              <span className="text-sm font-semibold text-text-secondary uppercase tracking-wider">Total</span>
-              <span className="text-2xl font-bold neon-text-gradient">
+          <div className="border-t border-gray-700 pt-5">
+            <div className="bg-background-secondary border border-gray-700 rounded-md px-4 py-3 flex justify-between items-center">
+              <span className="text-xs uppercase tracking-wider text-text-secondary font-medium">
+                Total
+              </span>
+              <span className="text-xl font-semibold text-binance-yellow">
                 ${calculateTotal()}
               </span>
             </div>
           </div>
 
-          <GlowButton type="submit" variant="primary" className="w-full">
+          <button
+            type="submit"
+            className="w-full bg-binance-yellow text-gray-900 font-semibold py-3 rounded-md text-sm hover:opacity-90 transition-opacity"
+          >
             Add Transaction
-          </GlowButton>
+          </button>
         </form>
-      </motion.div>
-    </NeonCard>
+      </div>
+    </motion.div>
   )
 }
 
 export default TransactionForm
-
